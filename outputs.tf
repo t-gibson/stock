@@ -4,6 +4,6 @@ output "public_ip" {
 }
 
 output "public_dns" {
-  value       = aws_instance.app.public_dns
+  value       = aws_eip.default.public_dns
   description = "The public DNS of the web server"
 }
