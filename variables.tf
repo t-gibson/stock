@@ -1,9 +1,9 @@
 variable "key_name" {
-  default = "design_search"
+  description = "The name of the aws key pair to associate with the instance"
+  default     = "personal"
 }
 
 variable "instance_type" {
   description = "The type of EC2 instance to run"
-  #default     = "p2.xlarge"
   default     = "t2.micro"
 }
