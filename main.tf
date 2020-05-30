@@ -46,7 +46,7 @@ resource "aws_instance" "app" {
   key_name        = var.key_name
   security_groups = [aws_security_group.default.name]
   // later we can add here a user data step to install requirements
-  // user_data = file("userdate.sh")
+  // user_data = file("userdata.sh")
 
   tags = {
     Name = "design-search-app"

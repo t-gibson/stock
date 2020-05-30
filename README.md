@@ -19,7 +19,7 @@ from an S3 blob of pre-indexed photos.
 ## Version 1:
 
 - terraform: an S3 bucket, an EC2 image that has docker installed.
-- run a simple EC2 instance that has docker installed. Then inside we can build
+- run a simple EC2 instance that has docker installed. Then insidne we can build
 and run a simple docker image.
 - Locally stored files on S3. Have a `download_files.sh` script to download images
 and upload to aws.
@@ -52,3 +52,45 @@ description instead.
 - progressively calling index steps will append to existing indexed data, provided the configs are the same (i.e. workspace)
 - protobuf is the preferred messaging between the pods. I need to read up on
 how this works compared to REST.
+
+# Getting started
+
+1. Download the data that we will process. It will create the folder `data/`
+and put a processed csv into `data/processed`
+
+    ```bash
+    ./get_data.sh
+    ```
+
+1. Construct the AWS infrastructure. This will require that you have
+set up the AWS cli on your system. You will need to pass in the name
+of your desired AWS key pair as a variable.
+
+    ```bash
+    terraform apply
+    ```
+
+1. Copy the application code and data file to our EC2 instance.
+
+    ```bash
+    aws cp <blah>
+    ```
+
+1. Install required dependencies
+
+    ```bash
+    ssh -i <path/to/your/private_key> ubuntu@$(terraform output public_dns)
+    pip install -r requirements.txt
+    ```
+
+1. While within the EC2 instance, run the indexing application:
+
+    ```bash
+    python app.py -t index -n 10000
+    ```
+
+1. After that you are free to run the querying application:
+
+    ```bash
+    python app.py -t query
+    ```

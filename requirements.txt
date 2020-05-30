@@ -1,0 +1,4 @@
+click
+jina[scipy]
+torch
+transformers
