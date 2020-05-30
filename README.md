@@ -67,19 +67,23 @@ set up the AWS cli on your system. You will need to pass in the name
 of your desired AWS key pair as a variable.
 
     ```bash
+    cd infra/
     terraform apply
     ```
 
 1. Copy the application code and data file to our EC2 instance.
 
     ```bash
-    aws cp <blah>
+    scp -r -i <private_key> code ubuntu@$(terraform output public_dns):code
+    scp -r -i <private_key> data/processed ubuntu@$(terraform output public_dns):code
     ```
 
 1. Install required dependencies
 
     ```bash
     ssh -i <path/to/your/private_key> ubuntu@$(terraform output public_dns)
+    cd code
+    conda create -n design_search python=3.7 pip
     pip install -r requirements.txt
     ```
 

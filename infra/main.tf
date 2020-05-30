@@ -36,13 +36,13 @@ resource "aws_security_group" "default" {
   }
 }
 
-resource "aws_s3_bucket" "app_files" {
-  bucket = "search-indices-data-store"
-}
+# resource "aws_s3_bucket" "app_files" {
+#   bucket = "search-indices-data-store"
+# }
 
 resource "aws_instance" "app" {
   instance_type   = var.instance_type
-  ami             = "ami-2757f631"
+  ami             = var.aws_ami
   key_name        = var.key_name
   security_groups = [aws_security_group.default.name]
   // later we can add here a user data step to install requirements
