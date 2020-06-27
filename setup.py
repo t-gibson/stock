@@ -13,7 +13,7 @@ def get_script_path():
 # see: https://packaging.python.org/guides/single-sourcing-package-version/
 version = {}
 ver_path = convert_path(
-    f"{get_script_path()}/src/design_search/version.py"
+    f"{get_script_path()}/src/stock/version.py"
 )
 with open(ver_path) as ver_file:
     exec(ver_file.read(), version)
@@ -24,13 +24,13 @@ EXTRAS_REQUIRES = {"app": ["jina[http]", "requests", "streamlit", "torch", "tran
 # TODO: add licence
 # TODO: add description
 setup(
-    name="design_search",
+    name="stock",
     version=version["__version__"],
     author="Tim Gibson",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     python_requires=">=3.7.0, <3.9.0",
-    entry_points={"console_scripts": ["design_search=design_search.cli:main"]},
+    entry_points={"console_scripts": ["stock=stock.cli:main"]},
     install_requires=REQUIREMENTS,
     include_package_date=True,
     test_suite="tests",

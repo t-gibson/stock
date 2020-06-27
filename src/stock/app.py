@@ -7,7 +7,7 @@ import logging
 import requests
 import streamlit as st
 
-from design_search import search
+from stock import search
 
 
 logger = logging.getLogger(__name__)

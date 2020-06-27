@@ -3,7 +3,7 @@ import hypothesis.strategies as st
 from hypothesis import given
 from hypothesis.provisional import urls
 
-from design_search import download
+from stock import download
 
 
 @st.composite

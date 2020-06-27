@@ -11,10 +11,10 @@ import click
 import click_log
 from dotenv import load_dotenv
 
-from design_search.version import __version__
+from stock.version import __version__
 
 
-logger = logging.getLogger("design_search")
+logger = logging.getLogger("stock")
 click_log.basic_config(logger)
 
 
@@ -42,7 +42,7 @@ def download(
     """
     Download info on stock images based on a list of QUERYs. Save the results to a csv.
     """
-    from design_search import download
+    from stock import download
 
     if not queries:
         logger.warning("No QUERYs have been passed. Nothing to do.")
@@ -83,7 +83,7 @@ def index(workspace, file, num_docs):
         from jina.flow import Flow
     except ImportError:
         raise ImportError("Jina is not installed. Did you install the package with .[app] extras?")
-    from design_search import search, utils
+    from stock import search, utils
 
     yml = utils.resource_filename("flow-index.yml")
     os.environ["SRC"] = os.path.dirname(yml)
@@ -103,13 +103,13 @@ def search(workspace):
     Launch a neural search application to return the top-k search results
     given an input prompt.
 
-    Requires install of package as design_search[app]
+    Requires install of package as stock[app]
     """
     try:
         from jina.flow import Flow
     except ImportError:
         raise ImportError("Jina is not installed. Did you install the package with .[app] extras?")
-    from design_search import search, utils
+    from stock import search, utils
 
     yml = utils.resource_filename("flow-query.yml")
     os.environ["SRC"] = os.path.dirname(yml)

@@ -1,6 +1,6 @@
 from jina.executors.crafters import BaseDocCrafter
 
-from design_search import download
+from stock import download
 
 
 class TextExtractor(BaseDocCrafter):

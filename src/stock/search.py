@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 import requests
 
-from design_search import download
+from stock import download
 
 
 def set_config():

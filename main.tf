@@ -49,6 +49,6 @@ resource "aws_instance" "app" {
   // user_data = file("userdata.sh")
 
   tags = {
-    Name = "design-search-app"
+    Name = "stock-app"
   }
 }
