@@ -2,7 +2,7 @@
 
 An ML-powered web app for stock image semantic search.
 
-__Screencast goes here__
+![In-use animation](./results.gif "In-use animation")
 
 Powered by:
 
@@ -13,34 +13,62 @@ Powered by:
 
 # Getting started
 
-1. Optionally, construct the AWS infrastructure. This can also be run on your
-local machine. This step will require that you have
-set up the AWS cli on your system. You will need to pass in the name
+To start, clone the repo:
+
+```bash
+git clone https://github.com/t-gibson/stock.git
+```
+
+## Optional prelude: Setting up an AWS instance
+
+This repo includes steps to construct AWS infrastructure for hosting this web app.
+It can also be run on your local machine. The steps for setting up the AWS infra
+are below. They will require that you have set up the AWS cli on your system
+and have installed Terraform.
+
+1. Construct the AWS infrastructure using Terraform. You will need to pass in the name
 of your desired AWS key pair as a variable.
 
     ```bash
-    # clone the directory
     terraform apply
     ```
 
-1. Either on your local or within the EC2 instance, install the `stock` cli app.
+1. SSH into your EC2 instance and clone the codebase there.
+
+    ```bash
+    ssh -i <path/to/ssh_private_key> ubuntu@$(terraform output public_dns)
+    git clone https://github.com/t-gibson/stock.git
+    ```
+   
+## Main steps
+
+1. Install the `stock` cli app.
 _Note:_ this app requires python>=3.7. I recommend using a virtual env or conda.
 
     ```bash
-    # optionally ssh to EC2
-    ssh -i <path/to/ssh_private_key> ubuntu@$(terraform output public_dns)
-    # install the package
     pip install -r requirements.txt
     ```
 
-1. Populate the `.env` template. __Fill more here__
+1. Populate the `.env` template file. This will save you keystrokes at the command line.
 
 1. Download the data that we will process. We abide by the limits of the Pexels API.
 So, if you attempt to download too many things `stock` will throw an exception or else
 the API will just return not as many images as you will expect.
 
     ```bash
-    stock download -n 50 <space separated list of image categories to query>
+    stock download --num-results 50 <space separated list of image categories to query>
+    ```
+
+    To have a search application that has half-decent results you will need to have
+downloaded info on a meaningful number of photos. However, don't abuse the Pexels API.
+I recommend running the below variant of the command and schedule it to re-run
+regularly using a crontab.
+
+    ```bash
+    stock download \
+      --num-results 50 \
+      --query-page-logs <file-to-store-interim-results> \
+      <space separate list of image categories>
     ```
 
 1. Run the indexing application.

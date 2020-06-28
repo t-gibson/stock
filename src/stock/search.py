@@ -39,7 +39,7 @@ def split_results(documents: List[str]) -> Tuple[List[str], List[str]]:
         photographer = photo["photographer"]
         main_url = photo["url"]
         url = photo["src"][download.PHOTO_SIZE]
-        caption = photo["description"] + f". Photo by {photographer}. {main_url}"
+        caption = f"Photo by {photographer} {main_url}"
 
         urls.append(url)
         captions.append(caption)

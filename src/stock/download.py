@@ -11,7 +11,7 @@ API Reference: https://www.pexels.com/api/
 import logging
 import re
 
-from typing import List
+from typing import List, Optional
 
 import requests
 
@@ -21,16 +21,16 @@ SEP = "[SEP]"
 PHOTO_SIZE = "large"
 
 
-# TODO: add support for pagination
 # TODO: add in retrying with backoff
-def get_photos(api_token: str, query: str, num_results: int = 15) -> List[dict]:
+def get_photos(api_token: str, query: str, page: int = 1, num_results: int = 15) -> List[dict]:
     """
     Returns the n-length list of Photo objects from
     the Pexels API.
 
     Args:
         api_token (str): The API authorization token.
-        query (str): The query string
+        query (str): The query string,
+        page (int): The number of the page that you are requesting.
         num_results (int, optional): Customise the number of results to return.
 
     Returns:
@@ -39,7 +39,7 @@ def get_photos(api_token: str, query: str, num_results: int = 15) -> List[dict]:
     assert num_results <= 80, "The max querying per page is 80"
 
     url = "https://api.pexels.com/v1/search"
-    params = {"query": query, "per_page": num_results}
+    params = {"query": query, "per_page": num_results, "page": page}
     headers = {"Authorization": api_token}
 
     logger.debug(f"Logging request with params: {params}")
@@ -47,17 +47,31 @@ def get_photos(api_token: str, query: str, num_results: int = 15) -> List[dict]:
     response = requests.get(url, params=params, headers=headers)
 
     logger.debug(response.headers)
-    return response.json()["photos"]
+
+    photos = response.json()["photos"]
+
+    if not photos:
+        logger.warning(f"Empty list of photos returned. Perhaps, page={page} is too high.")
+
+    return photos
 
 
-def encode_photo_object(photo: dict) -> str:
+def encode_photo_object(photo: dict, query: Optional[str] = None) -> str:
     """
     Encode the Pexels API Photo object into a single text string
+
+    Args:
+        photo (dict): The Photo object returned by the Pexels API.
+        query (str, optional): The query string that this image was found by.
+            If provided, this string will be appended to the image's description.
     """
     photographer = photo["photographer"]
     main_url = encode_url(photo["url"])
     image_url = encode_url(photo["src"][PHOTO_SIZE])
     description = get_image_description(photo["url"])
+
+    if query:
+        description += f". {query}."
 
     return SEP.join([photographer, main_url, image_url, description])
 

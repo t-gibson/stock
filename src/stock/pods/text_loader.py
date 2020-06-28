@@ -9,5 +9,10 @@ class TextExtractor(BaseDocCrafter):
     send the image description into the `text` protobuf field.
     """
     def craft(self, text: str, *args, **kwargs) -> dict:
-        _, _, url, description = text.split(download.SEP)
-        return dict(weight=1., text=description, meta_info=url.encode())
+        self.logger.debug(f"Attempting to unpack {text}")
+        try:
+            _, _, url, description = text.split(download.SEP)
+            return dict(weight=1., text=description, meta_info=url.encode())
+        except ValueError as e:
+            self.logger.error(f"Failure in splitting text={text}")
+            raise e

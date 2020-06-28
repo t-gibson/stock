@@ -21,12 +21,12 @@ with open(ver_path) as ver_file:
 REQUIREMENTS = ["Click", "click-log", "python-dotenv", "requests"]
 EXTRAS_REQUIRES = {"app": ["jina[http]", "requests", "streamlit", "torch", "transformers"]}
 
-# TODO: add licence
-# TODO: add description
 setup(
     name="stock",
+    description="An ML-powered web app for stock image semantic search",
     version=version["__version__"],
     author="Tim Gibson",
+    license="Apache 2.0",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     python_requires=">=3.7.0, <3.9.0",
