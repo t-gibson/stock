@@ -11,6 +11,8 @@ Powered by:
 - [Jina](https://github.com/jina-ai/jina) for the search capabilities
 - [Streamlit](https://github.com/streamlit/streamlit) for the web app
 
+See the code [here](https://github.com/t-gibson/stock)
+
 # Getting started
 
 To start, clone the repo:
@@ -84,14 +86,13 @@ will be running on port `8501`.
     stock search
     ```
 
-# Improvements to make:
 
-- ui improvements
-    - can add in details on the number of images and from what topics the results we have indexed.
-    - add in credit and link back to github
-    - improve printing of images. fit more on each page.
-- attempt multi-modal searching
-- attempt to wrap the computationally expensive parts (bert) in serverless application.
-Then, try to host the rest of the application in a single EC2 t2.micro? Or maybe push for
-everything to be either dockerised or severless.
-    - Chalice?
+
+# Where to next?
+
+To dig deeper into the neural search path I could consider __multi-modal search capabilities__.
+This should be a cinch with the multi-modal search capapabilities that are on their way for Jina.
+
+I only dipped my toe into hosting an app on AWS.
+There isn't many smarts applied to the infrastructure that I set up.
+__Could I attempt to wrap up the search capability as a serverless application?__
